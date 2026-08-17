@@ -25,8 +25,7 @@ RUN python3 -m pip install --no-cache-dir --upgrade pip setuptools cython six pa
     python3 -m pip install --no-cache-dir \
         https://github.com/alxchk/tinyec/archive/master.zip \
         https://github.com/warner/python-ed25519/archive/master.zip \
-        https://github.com/alxchk/urllib-auth/archive/master.zip \
-        https://github.com/alxchk/pyuv/archive/v1.x.zip && \
+        https://github.com/alxchk/urllib-auth/archive/master.zip && \
     python3 -m pip install --no-cache-dir pynacl cryptography && \
     python3 -m pip install --no-cache-dir python-prctl pyodbc
 

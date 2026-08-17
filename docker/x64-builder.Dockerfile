@@ -1,7 +1,8 @@
 FROM ubuntu:22.04
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    ca-certificates curl file gcc make musl-tools xz-utils git python3 python3-pip \
+    ca-certificates curl file gcc g++ make musl-tools xz-utils git python3 python3-pip \
+    libc6-dev libc-dev-bin linux-libc-dev \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
