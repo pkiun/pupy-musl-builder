@@ -56,6 +56,7 @@ jobs:
           mkdir -p dist
           docker run --rm -v /tmp/pupy:/src -v "$PWD:/work" -v "$PWD/dist:/out" \
             pikun223/pupy-toolchain:x64 bash /work/scripts/build-x64.sh
+          sudo chown -R "$USER:$USER" dist/
           file dist/*
       - uses: actions/upload-artifact@v4
         with:
@@ -79,6 +80,7 @@ jobs:
           docker run --platform linux/arm64 --rm -v /tmp/pupy:/src \
             -v "$PWD:/work" -v "$PWD/dist:/out" \
             pikun223/pupy-toolchain:arm64 sh /work/scripts/build-arm64.sh
+          sudo chown -R "$USER:$USER" dist/
           file dist/*
         env:
           QEMU_CPU: max

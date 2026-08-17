@@ -9,6 +9,9 @@ python3 -m pip install --force-reinstall /src/pupy/external/pykcp
 
 cd /src/client/sources-linux-py3
 
+sed -i 's/#include <mcheck.h>/\/\/ mcheck.h not available on musl/' main_exe.c
+sed -i 's/    mtrace();/    \/\/ mtrace() not available on musl/' main_exe.c
+
 make distclean
 
 make -j$(nproc) \
