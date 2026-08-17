@@ -27,7 +27,10 @@ RUN python3 -m pip install --no-cache-dir --upgrade pip setuptools cython six pa
         https://github.com/warner/python-ed25519/archive/master.zip \
         https://github.com/alxchk/urllib-auth/archive/master.zip && \
     python3 -m pip install --no-cache-dir pynacl cryptography && \
-    python3 -m pip install --no-cache-dir python-prctl pyodbc
+    python3 -m pip install --no-cache-dir python-prctl pyodbc && \
+    python3 -m pip install --no-cache-dir pyaes && \
+    python3 -m pip install --no-cache-dir \
+        https://github.com/Legrandin/pycryptodome/archive/master.zip
 
 WORKDIR /build
 CMD ["sh"]
