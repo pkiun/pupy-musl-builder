@@ -1,0 +1,39 @@
+name: build-unstable
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [unstable]
+
+jobs:
+  client:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { name: linux64, image: alxchk/tc-linux64, arch: amd64, platform: linux/amd64, qemu: false }
+          - { name: linux32, image: alxchk/tc-linux32, arch: x86, platform: linux/i386, qemu: false }
+          - { name: linux-armhf, image: alxchk/tc-linux-armhf, arch: armhf, platform: linux/arm/v7, qemu: true }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-qemu-action@v3
+        if: matrix.qemu
+      - name: Clone pupy unstable
+        run: |
+          git clone --depth 1 --branch unstable https://github.com/n1nj4sec/pupy.git /tmp/pupy
+          cd /tmp/pupy && git submodule update --init --depth 1 pupy/external/pykcp pupy/external/pyopus || true
+      - name: Build client
+        run: |
+          mkdir -p dist
+          docker run --rm --platform ${{ matrix.platform }} \
+            -e TOOLCHAIN_ARCH=${{ matrix.arch }} \
+            -v /tmp/pupy:/build/workspace/project \
+            ${{ matrix.image }} /build/workspace/project/client/sources-linux/build-docker.sh
+          cp -v /tmp/pupy/pupy/payload_templates/*.lin* dist/ 2>/dev/null || true
+          ls -la dist/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pupy-unstable-${{ matrix.name }}
+          path: dist/*
