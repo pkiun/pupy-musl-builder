@@ -11,6 +11,7 @@ cd /src/client/sources-linux-py3
 
 sed -i 's/#include <mcheck.h>/\/\/ mcheck.h not available on musl/' main_exe.c
 sed -i 's/    mtrace();/    \/\/ mtrace() not available on musl/' main_exe.c
+sed -i 's/    on_exit(__on_exit, NULL);/    \/\/ on_exit() not available on musl, atexit used above/' main_so.c
 
 patch -p1 -d /src < /work/patches/build_library_zip-namespace-pkg.patch
 
