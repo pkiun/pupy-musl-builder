@@ -8,9 +8,9 @@ rm -rf /build/workspace
 mkdir -p /build/workspace
 
 cp -r /src/client/pyoxidizer-build/* /build/workspace/
-cp -r /src/pupy/pupy/agent /build/workspace/lib/pupy/agent
-cp -r /src/pupy/pupy/network /build/workspace/lib/pupy/network
-cp -r /src/pupy/pupy/library_patches_py3 /build/workspace/library_patches_py3
+cp -r /src/pupy/agent /build/workspace/lib/pupy/agent
+cp -r /src/pupy/network /build/workspace/lib/pupy/network
+cp -r /src/pupy/library_patches_py3 /build/workspace/library_patches_py3
 
 cd /build/workspace
 pyoxidizer build --release

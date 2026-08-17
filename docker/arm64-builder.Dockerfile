@@ -2,7 +2,7 @@ FROM arm64v8/alpine:3.19
 
 RUN apk add --no-cache \
     build-base git curl zip xz \
-    openssl-dev zlib-dev bzip2-dev readline-dev sqlite3-dev ncurses-dev libffi-dev \
+    openssl-dev zlib-dev bzip2-dev readline-dev sqlite-dev ncurses-dev libffi-dev \
     libcap-dev linux-headers attr-dev acl-dev alsa-lib-dev portaudio-dev \
     unixodbc-dev libsodium-dev
 
