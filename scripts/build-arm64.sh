@@ -12,6 +12,8 @@ cd /src/client/sources-linux-py3
 sed -i 's/#include <mcheck.h>/\/\/ mcheck.h not available on musl/' main_exe.c
 sed -i 's/    mtrace();/    \/\/ mtrace() not available on musl/' main_exe.c
 
+patch -p1 -d /src < /work/patches/build_library_zip-namespace-pkg.patch
+
 make distclean
 
 make -j$(nproc) \

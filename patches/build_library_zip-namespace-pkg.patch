@@ -1,0 +1,16 @@
+diff --git a/client/build_library_zip.py b/client/build_library_zip.py
+--- a/client/build_library_zip.py
++++ b/client/build_library_zip.py
+@@ -205,7 +205,12 @@ try:
+         if dep.startswith("_cython_") or dep in ["cython_runtime", "pywin32_system32"]:
+             continue
+-        _, mpath, info = imp.find_module(dep)
++        try:
++            _, mpath, info = imp.find_module(dep)
++        except ImportError:
++            # namespace packages (e.g. jaraco) have no __init__.py and
++            # cannot be found by imp.find_module - not needed by pupy
++            continue
+         #print("mpath", mpath, "info", info)
+         if mpath == None:
+             continue
