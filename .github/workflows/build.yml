@@ -6,65 +6,65 @@ on:
     branches: [main]
 
 jobs:
-  toolchain-x64:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: docker/setup-buildx-action@v3
-      - uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: docker/x64-builder.Dockerfile
-          platforms: linux/amd64
-          push: true
-          tags: pikun223/pupy-toolchain:x64
+  # toolchain-x64:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: docker/setup-buildx-action@v3
+  #     - uses: docker/login-action@v3
+  #       with:
+  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
+  #     - uses: docker/build-push-action@v6
+  #       with:
+  #         context: .
+  #         file: docker/x64-builder.Dockerfile
+  #         platforms: linux/amd64
+  #         push: true
+  #         tags: pikun223/pupy-toolchain:x64
 
-  toolchain-arm64:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: docker/setup-qemu-action@v3
-      - uses: docker/setup-buildx-action@v3
-      - uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: docker/arm64-builder.Dockerfile
-          platforms: linux/arm64
-          push: true
-          tags: pikun223/pupy-toolchain:arm64
+  # toolchain-arm64:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: docker/setup-qemu-action@v3
+  #     - uses: docker/setup-buildx-action@v3
+  #     - uses: docker/login-action@v3
+  #       with:
+  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
+  #     - uses: docker/build-push-action@v6
+  #       with:
+  #         context: .
+  #         file: docker/arm64-builder.Dockerfile
+  #         platforms: linux/arm64
+  #         push: true
+  #         tags: pikun223/pupy-toolchain:arm64
 
-  client-x64:
-    needs: toolchain-x64
-    runs-on: ubuntu-latest
-    timeout-minutes: 180
-    steps:
-      - uses: actions/checkout@v4
-      - name: Clone pupy
-        run: |
-          git clone --depth 1 --branch nextgen https://github.com/n1nj4sec/pupy.git /tmp/pupy
-          cd /tmp/pupy && git submodule update --init --depth 1 pupy/external/pykcp || true
-      - name: Build client (pyoxidizer)
-        run: |
-          mkdir -p dist
-          docker run --rm -v /tmp/pupy:/src -v "$PWD:/work" -v "$PWD/dist:/out" \
-            pikun223/pupy-toolchain:x64 bash /work/scripts/build-x64.sh
-          sudo chown -R "$USER:$USER" dist/
-          file dist/*
-      - uses: actions/upload-artifact@v4
-        with:
-          name: pupy-x64-musl
-          path: dist/*
+  # client-x64:
+    # needs: toolchain-x64
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 180
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Clone pupy
+  #       run: |
+  #         git clone --depth 1 --branch nextgen https://github.com/n1nj4sec/pupy.git /tmp/pupy
+  #         cd /tmp/pupy && git submodule update --init --depth 1 pupy/external/pykcp || true
+  #     - name: Build client (pyoxidizer)
+  #       run: |
+  #         mkdir -p dist
+  #         docker run --rm -v /tmp/pupy:/src -v "$PWD:/work" -v "$PWD/dist:/out" \
+  #           pikun223/pupy-toolchain:x64 bash /work/scripts/build-x64.sh
+  #         sudo chown -R "$USER:$USER" dist/
+  #         file dist/*
+  #     - uses: actions/upload-artifact@v4
+  #       with:
+  #         name: pupy-x64-musl
+  #         path: dist/*
 
   client-arm64:
-    needs: toolchain-arm64
+    # needs: toolchain-arm64
     runs-on: ubuntu-latest
     timeout-minutes: 180
     steps:
